@@ -13,20 +13,41 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-# Load .env if present (dev convenience — no-op in Docker)
+# Load .env if present (dev convenience - no-op in Docker)
 load_dotenv()
 
-_BASE_DIR = Path(__file__).parent.parent.parent  # wazuh-mcp/ root
+
+def _find_config_toml() -> Path:
+    """
+    Locate config.toml by checking in order:
+    1. WAZUH_CONFIG_PATH env var (explicit override)
+    2. Current working directory (works in Docker: WORKDIR /app)
+    3. Three levels up from this file (works for local editable install: src/wazuh_mcp/)
+    """
+    env_path = os.getenv("WAZUH_CONFIG_PATH")
+    if env_path:
+        p = Path(env_path)
+        if p.exists():
+            return p
+        raise FileNotFoundError(f"config.toml not found at WAZUH_CONFIG_PATH={env_path}")
+
+    candidates = [
+        Path.cwd() / "config.toml",
+        Path(__file__).parent.parent.parent / "config.toml",
+    ]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    raise FileNotFoundError(
+        "config.toml not found. Looked in:\n"
+        + "\n".join(f"  {p}" for p in candidates)
+        + "\nSet WAZUH_CONFIG_PATH or place config.toml in the working directory."
+    )
 
 
 def _load_toml() -> dict:
-    toml_path = _BASE_DIR / "config.toml"
-    if not toml_path.exists():
-        raise FileNotFoundError(
-            f"config.toml not found at {toml_path}. "
-            "Copy config.toml.example to config.toml and adjust values."
-        )
-    with open(toml_path, "rb") as f:
+    with open(_find_config_toml(), "rb") as f:
         return tomllib.load(f)
 
 
