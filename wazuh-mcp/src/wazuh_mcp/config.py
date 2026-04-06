@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 # Load .env if present (dev convenience — no-op in Docker)
 load_dotenv()
 
-_BASE_DIR = Path(__file__).parent.parent.parent.parent  # repo root of wazuh-mcp/
+_BASE_DIR = Path(__file__).parent.parent.parent  # wazuh-mcp/ root
 
 
 def _load_toml() -> dict:
