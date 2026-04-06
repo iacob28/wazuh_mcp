@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "wazuh-mcp"
+version = "0.1.0"
+description = "Wazuh SIEM MCP server — query alerts, search events, inspect agents"
+authors = []
+packages = [{include = "wazuh_mcp", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastmcp = "^2.0"
+httpx = "^0.27"
+pydantic = "^2.0"
+python-dotenv = "^1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+pytest-asyncio = "^0.23"
+respx = "^0.21"
+
+[tool.poetry.scripts]
+wazuh-mcp = "wazuh_mcp.server:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
