@@ -1,12 +1,12 @@
 [manager]
 # Wazuh Manager REST API (port 55000)
-url = "https://localhost:55000"
-verify_ssl = false   # set true + ca_bundle for production
-ca_bundle = ""       # e.g. "/etc/ssl/certs/wazuh-ca.pem"
+url = "https://siem01.arobs.net:55000"
+verify_ssl = false                     # set true + ca_bundle for production
+ca_bundle = ""                         # e.g. "/etc/ssl/certs/wazuh-ca.pem"
 
 [indexer]
 # Wazuh Indexer / OpenSearch (port 9200) — alerts are stored here
-url = "https://localhost:9200"
+url = "https://siem01.arobs.net:9200"
 verify_ssl = false
 ca_bundle = ""
 alert_index = "wazuh-alerts-*"
@@ -14,4 +14,4 @@ alert_index = "wazuh-alerts-*"
 [limits]
 default_limit = 100
 max_limit = 1000
-token_ttl_seconds = 800   # JWT cache duration (Wazuh default is 900s)
+token_ttl_seconds = 800 # JWT cache duration (Wazuh default is 900s)
