@@ -1,0 +1,48 @@
+name: wazuh-mcp
+image: wazuh-mcp
+type: server
+meta:
+  category: security
+  tags:
+    - security
+    - siem
+    - wazuh
+    - alerts
+about:
+  title: Wazuh MCP
+  description: Query Wazuh SIEM security alerts, search events, and inspect monitored agents.
+  icon: https://wazuh.com/favicon.ico
+source:
+  project: https://github.com/iacob28/wazuh_mcp
+config:
+  description: Configure the connection to your Wazuh instance
+  env:
+    - name: WAZUH_MANAGER_URL
+      example: https://wazuh-manager:55000
+      value: '{{wazuh-mcp.manager_url}}'
+    - name: WAZUH_INDEXER_URL
+      example: https://wazuh-indexer:9200
+      value: '{{wazuh-mcp.indexer_url}}'
+  secrets:
+    - name: wazuh-mcp.manager_username
+      env: WAZUH_MANAGER_USERNAME
+      example: wazuh-wui
+    - name: wazuh-mcp.manager_password
+      env: WAZUH_MANAGER_PASSWORD
+      example: <your-manager-password>
+    - name: wazuh-mcp.indexer_username
+      env: WAZUH_INDEXER_USERNAME
+      example: admin
+    - name: wazuh-mcp.indexer_password
+      env: WAZUH_INDEXER_PASSWORD
+      example: <your-indexer-password>
+  parameters:
+    type: object
+    properties:
+      manager_url:
+        type: string
+      indexer_url:
+        type: string
+    required:
+      - manager_url
+      - indexer_url
