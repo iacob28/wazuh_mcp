@@ -14,6 +14,7 @@ about:
   icon: https://wazuh.com/favicon.ico
 source:
   project: https://github.com/iacob28/wazuh_mcp
+  commit: 1d890866c36955abf327f19fa8270990b18bb1a1
 config:
   description: Configure the connection to your Wazuh instance
   env:
